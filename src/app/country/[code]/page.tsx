@@ -4,14 +4,15 @@ import BackButton from "@/components/BackButton";
 import CountryCard from "@/components/CountryCard";
 
 interface IProps {
-  params: {
+  params: Promise<{
     code: string;
-  };
+  }>;
 }
 
 const Page = async ({ params }: IProps) => {
+  const { code } = await params;
   const countries = await countriesApi.getCountries();
-  const country = countries.find((c) => c.iso_code2 === params.code);
+  const country = countries.find((c) => c.iso_code2 === code);
 
   if (!country) {
     notFound();
